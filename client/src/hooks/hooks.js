@@ -6,7 +6,6 @@ export function useBooks(filter) {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    let active = true;
     const fetchBooks = async () => {
       setLoading(true);
       setError(null);
@@ -14,19 +13,15 @@ export function useBooks(filter) {
         const res = await fetch(`http://localhost:4001/books?search=${filter}`);
         if (!res.ok) throw new Error("Failed to fetch books");
         const data = await res.json();
-        if (active) setBooks(data);
+        setBooks(data);
       } catch (err) {
-        if (active) setError(err.message);
+        setError(err.message);
       } finally {
-        if (active) setLoading(false);
+        setLoading(false);
       }
     };
 
     fetchBooks();
-    return () => {
-      console.log("XXX: active=false");
-      active = false;
-    };
   }, [filter]);
 
   return { books, loading, error };

@@ -24,6 +24,7 @@ export function useBooks(filter) {
 
     fetchBooks();
     return () => {
+      console.log("XXX: active=false");
       active = false;
     };
   }, [filter]);
